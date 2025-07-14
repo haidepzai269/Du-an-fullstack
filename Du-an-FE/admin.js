@@ -1,11 +1,9 @@
-// 📁 admin.js
-
 // 🔔 Gửi thông báo
 document.getElementById('sendNotification').addEventListener('submit', async (e) => {
   e.preventDefault();
   const message = e.target.message.value;
 
-  const res = await adminAuthFetch('http://localhost:3000/api/admins/send-notification', {
+  const res = await adminAuthFetch('/api/admins/send-notification', {
     method: 'POST',
     body: JSON.stringify({ message }),
   });
@@ -21,7 +19,7 @@ document.getElementById('createSurvey').addEventListener('submit', async (e) => 
   const title = e.target.title.value;
   const description = e.target.description.value;
 
-  const res = await adminAuthFetch('http://localhost:3000/api/admins/survey', {
+  const res = await adminAuthFetch('/api/admins/survey', {
     method: 'POST',
     body: JSON.stringify({ title, description }),
   });
@@ -33,7 +31,7 @@ document.getElementById('createSurvey').addEventListener('submit', async (e) => 
 
 // 💬 Xem phản hồi
 async function loadFeedbacks() {
-  const res = await adminAuthFetch('http://localhost:3000/api/admins/feedbacks');
+  const res = await adminAuthFetch('/api/admins/feedbacks');
   const data = await res.json();
   const list = document.getElementById('feedbackList');
   list.innerHTML = '';
@@ -43,108 +41,86 @@ async function loadFeedbacks() {
     return;
   }
 
-  // 🗨️ Hiển thị phản hồi tự do
+  // Tự do
   if (data.freeFeedbacks.length > 0) {
     list.innerHTML += '<h3>🗨️ Phản hồi tự do:</h3>';
     data.freeFeedbacks.forEach(f => {
-      const idTag = f.student_id ? `SV ${f.student_id}` :
-                     f.teacher_id ? `GV ${f.teacher_id}` : 'Ẩn danh';
-      const li = document.createElement('li');
-      li.innerHTML = `<strong>[${idTag}] ${f.title}:</strong> ${f.content}`;
-      list.appendChild(li);
+      const id = f.student_id ? `SV ${f.student_id}` : f.teacher_id ? `GV ${f.teacher_id}` : 'Ẩn danh';
+      list.innerHTML += `<li><strong>[${id}] ${f.title}:</strong> ${f.content}</li>`;
     });
   }
 
-  // 📋 Hiển thị phản hồi khảo sát
+  // Khảo sát
   if (data.surveyResponses.length > 0) {
     list.innerHTML += '<h3>📋 Phản hồi khảo sát:</h3>';
     data.surveyResponses.forEach(s => {
-      const idTag = s.student_id ? `SV ${s.student_id}` :
-                     s.teacher_id ? `GV ${s.teacher_id}` : 'Ẩn danh';
-      const li = document.createElement('li');
-      li.innerHTML = `<strong>[${idTag}] ${s.survey_title}:</strong> ${s.response_text}`;
-      list.appendChild(li);
+      const id = s.student_id ? `SV ${s.student_id}` : s.teacher_id ? `GV ${s.teacher_id}` : 'Ẩn danh';
+      list.innerHTML += `<li><strong>[${id}] ${s.survey_title}:</strong> ${s.response_text}</li>`;
     });
   }
 }
 
-// Tự động gọi khi admin bấm tab “Phản hồi”
 document.querySelector('li[onclick*="feedback"]').addEventListener('click', loadFeedbacks);
 
 // 📅 Gửi thời khóa biểu
-const scheduleForm = document.getElementById('scheduleForm');
-scheduleForm.addEventListener('submit', async (e) => {
+document.getElementById('scheduleForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const form = e.target;
 
-  const user_id = e.target.user_id.value;
-  const role = e.target.role.value;
-  const day = e.target.day.value;
-  const start_time = e.target.start_time.value;
-  const end_time = e.target.end_time.value;
-  const subject = e.target.subject.value;
-  const location = e.target.location.value;
+  const payload = {
+    user_id: form.user_id.value,
+    role: form.role.value,
+    day: form.day.value,
+    start_time: form.start_time.value,
+    end_time: form.end_time.value,
+    subject: form.subject.value,
+    location: form.location.value,
+  };
 
-  const res = await adminAuthFetch('http://localhost:3000/api/admins/schedule', {
+  const res = await adminAuthFetch('/api/admins/schedule', {
     method: 'POST',
-    body: JSON.stringify({ user_id, role, day, start_time, end_time, subject, location }),
+    body: JSON.stringify(payload),
   });
 
   const data = await res.json();
   alert(data.message || data.error);
-  scheduleForm.reset();
+  form.reset();
 });
 
-// 🎯 Chuyển tab
-function showSection(id) {
-  document.querySelectorAll('main section').forEach(section => {
-    section.classList.remove('active');
-  });
-  document.getElementById(id).classList.add('active');
-
-  document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
-  document.querySelector(`.sidebar li[onclick*="${id}"]`).classList.add('active');
-
-  if (id === 'feedback') loadFeedbacks();
-}
-
-
-// tìm kiếm 
+// 🔍 Tìm kiếm người dùng
 const searchInput = document.getElementById('searchInput');
 const resultsList = document.getElementById('resultsList');
-
 let searchTimeout = null;
+
 searchInput.addEventListener('input', () => {
   clearTimeout(searchTimeout);
   const keyword = searchInput.value.trim();
 
-  if (keyword.length === 0) {
-    resultsList.innerHTML = '';
-    return;
-  }
+  if (!keyword) return (resultsList.innerHTML = '');
 
-  // Gửi request sau 300ms để tránh spam
   searchTimeout = setTimeout(async () => {
     try {
-      const res = await adminAuthFetch(`http://localhost:3000/api/admins/search?q=${encodeURIComponent(keyword)}`);
+      const res = await adminAuthFetch(`/api/admins/search?q=${encodeURIComponent(keyword)}`);
       const data = await res.json();
 
-      resultsList.innerHTML = '';
-      if (data.length === 0) {
-        resultsList.innerHTML = '<li>Không tìm thấy kết quả nào.</li>';
-        return;
-      }
-
-      data.forEach(user => {
-        const li = document.createElement('li');
-        li.textContent = `${user.role === 'student' ? 'SV' : 'GV'}: ${user.name} (${user.email})`;
-        resultsList.appendChild(li);
-      });
+      resultsList.innerHTML = data.length
+        ? data.map(u => `<li>${u.role === 'student' ? 'SV' : 'GV'}: ${u.name} (${u.email})</li>`).join('')
+        : '<li>Không tìm thấy kết quả nào.</li>';
     } catch (err) {
       resultsList.innerHTML = '<li>Lỗi khi tìm kiếm.</li>';
-      console.error(err);
     }
   }, 300);
 });
+
+// Tab navigation
+function showSection(id) {
+  document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+  document.querySelector(`.sidebar li[onclick*="${id}"]`).classList.add('active');
+  if (id === 'feedback') loadFeedbacks();
+}
+
 
 
 

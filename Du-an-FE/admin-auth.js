@@ -12,23 +12,22 @@ loginForm.addEventListener('submit', async (e) => {
   const email = e.target.email.value;
   const password = e.target.password.value;
 
-  const res = await fetch('http://localhost:3000/api/admins/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  });
+  try {
+    const res = await fetch('/api/admins/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
 
-  const data = await res.json();
-  if (res.ok) {
-    // ✅ Lưu token vào localStorage
+    const data = await res.json();
+    if (!res.ok) return alert(data.error || 'Đăng nhập thất bại');
+
     localStorage.setItem('adminAccessToken', data.accessToken);
     localStorage.setItem('adminRefreshToken', data.refreshToken);
     localStorage.setItem('admin', JSON.stringify({ id: data.id, email }));
-
-    // ✅ Chuyển sang trang quản trị
     window.location.href = 'admin.html';
-  } else {
-    alert(data.error || 'Đăng nhập thất bại');
+  } catch (err) {
+    alert('Lỗi kết nối máy chủ');
   }
 });
 
@@ -38,17 +37,19 @@ registerForm.addEventListener('submit', async (e) => {
   const email = e.target.email.value;
   const password = e.target.password.value;
 
-  const res = await fetch('http://localhost:3000/api/admins/register', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  });
+  try {
+    const res = await fetch('/api/admins/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
 
-  const data = await res.json();
-  if (res.ok) {
+    const data = await res.json();
+    if (!res.ok) return alert(data.error || 'Đăng ký thất bại');
+
     alert('Đăng ký thành công, vui lòng đăng nhập');
     toggleForm();
-  } else {
-    alert(data.error || 'Đăng ký thất bại');
+  } catch (err) {
+    alert('Lỗi kết nối máy chủ');
   }
 });
