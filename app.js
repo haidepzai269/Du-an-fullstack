@@ -41,5 +41,14 @@ app.use('/api/admins', adminRoutes);
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'Du-an-FE', 'teacher-auth.html'));
 });
+// Trang sinh viên
+app.get('/student', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Du-an-FE', 'login-register.html'));
+});
+
+// Trang quản lý (admin)
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'Du-an-FE', 'admin-auth.html'));
+});
 
 module.exports = app;
