@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trang chủ</title>
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>TÀI KHOẢN SINH VIÊN</h2>
+      <ul>
+        <li><a href="home.html" class="active">🏠 Trang chủ</a></li>
+        <li><a href="profile.html">👤 Thông tin cá nhân</a></li>
+        <li><a href="schedule.html">📅 Thời khóa biểu</a></li>
+        <li><a href="grades.html" >📊 Điểm học tập</a></li>
+        <li><a href="survey.html">📝 Khảo sát</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <header class="topbar">
+        <span id="usernameDisplay">Tên người dùng</span>
+        <button onclick="logout()" id="logoutBtn">🔓 Đăng xuất</button>
+      </header>
+
+      <section class="content">
+        <h1>🎓 Chào mừng bạn đến với Cổng thông tin Sinh viên!</h1>
+        <div class="intro">
+          <p><strong>Giới thiệu về trường:</strong></p>
+          <p>
+            Trường Đại học Hoàng Hải là một ngôi trường đại học giả tưởng tọa lạc bên bờ biển xanh thơ mộng, nơi giao thoa giữa tri thức và thiên nhiên. Được thành lập vào đầu thế kỷ 21, trường nổi bật với kiến trúc hiện đại, khuôn viên rộng lớn và môi trường học tập năng động. 
+          </p>
+          <p>
+            Đại học Hoàng Hải đào tạo đa ngành, từ công nghệ, kinh tế đến nghệ thuật và môi trường biển. Với phương châm “<em>Kiến tạo tri thức – Hướng tới tương lai</em>”, trường không ngừng đổi mới để trở thành điểm đến lý tưởng cho những ai mong muốn phát triển toàn diện cả về học thuật lẫn kỹ năng sống.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="authFetch.js"></script>
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      alert("Bạn chưa đăng nhập");
+      window.location.href = "login-register.html";
+    } else {
+      document.getElementById("usernameDisplay").textContent = user.username.toUpperCase();
+    }
+
+    function logout() {
+      if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+        localStorage.removeItem("token");
+        window.location.href = "login-register.html";
+      }
+    }
+    // Hiển thị thông báo nếu có
+async function showNotification() {
+  try {
+    const res = await authFetch('/api/admins/notifications/latest');
+    const data = await res.json();
+    if (data.message) {
+      alert("📢 THÔNG BÁO TỪ NHÀ TRƯỜNG:\n\n" + data.message);
+    }
+  } catch (error) {
+    console.error("Không thể lấy thông báo:", error);
+  }
+}
+
+showNotification(); // gọi sau khi xác thực
+
+  </script>
+<script>
+  const hour = new Date().getHours();
+  
+  if (hour >= 5 && hour < 12) {
+    startSnow(); // Sáng: tuyết
+  } else if (hour >= 12 && hour <= 23) {
+    startWind(); // Chiều/tối: gió
+  }
+  
+  function startSnow() {
+    setInterval(() => {
+      const snow = document.createElement("div");
+      snow.classList.add("snow-flake");
+      snow.style.left = Math.random() * window.innerWidth + "px";
+      snow.style.fontSize = Math.random() * 10 + 10 + "px";
+      snow.innerText = "❄️";
+      document.body.appendChild(snow);
+  
+      setTimeout(() => snow.remove(), 5000);
+    }, 300);
+  }
+  
+  function startWind() {
+    setInterval(() => {
+      const leaf = document.createElement("div");
+      leaf.classList.add("leaf-blow");
+      leaf.innerText = "🍁";
+      leaf.style.left = Math.random() * window.innerWidth + "px";
+      leaf.style.fontSize = Math.random() * 18 + 12 + "px";
+      document.body.appendChild(leaf);
+  
+      setTimeout(() => leaf.remove(), 4000);
+    }, 300);
+  }
+  </script>
+  
+</body>
+</html>

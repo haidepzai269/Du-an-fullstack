@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trang quản trị</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <h2>Quản trị viên</h2>
+      <nav>
+        <ul>
+          <li class="active" onclick="showSection('dashboard')">🏠 Trang chủ</li>
+          <li onclick="showSection('notification')">📢 Gửi thông báo</li>
+          <li onclick="showSection('schedule')">🗓 Sắp xếp lịch</li>
+          <li onclick="showSection('survey')">📝 Tạo khảo sát</li>
+          <li onclick="showSection('feedback')">💬 Xem phản hồi</li>
+        </ul>
+      </nav>
+      <div class="snow-pile">
+        <div class="snow-layer"></div>
+      </div>
+      <div class="ice-layer" id="iceLayer"></div>
+      
+    </aside>
+
+    <main class="content">
+      <section id="dashboard" class="active">
+        <h1>Chào mừng Admin!</h1>
+        <p>Quản lý toàn bộ hệ thống sinh viên, giáo viên và khảo sát.</p>
+        <h2>🔍 Tìm kiếm người dùng</h2>
+        <input type="text" id="searchInput" placeholder="Nhập tên hoặc email..." />
+        <ul id="resultsList"></ul>
+      </section>
+
+      <section id="notification">
+        <h2>📢 Gửi thông báo</h2>
+        <form id="sendNotification">
+          <textarea name="message" placeholder="Nhập nội dung thông báo..." required></textarea>
+          <button type="submit" id="submitResponseBtn">Gửi</button>
+        </form>
+      </section>
+
+      <section id="schedule">
+        <h2>🗓 Sắp xếp thời khóa biểu</h2>
+        <form id="scheduleForm">
+          <input type="number" name="user_id" placeholder="ID người dùng" required />
+          <select name="role">
+            <option value="student">Sinh viên</option>
+            <option value="teacher">Giáo viên</option>
+          </select>
+          <input type="text" name="day" placeholder="Thứ / Ngày" required />
+          <input type="time" name="start_time" placeholder="Giờ bắt đầu" required />
+          <input type="time" name="end_time" placeholder="Giờ kết thúc" required />
+          <input type="text" name="subject" placeholder="Môn học" required />
+          <input type="text" name="location" placeholder="Phòng học" required />
+          <button type="submit" id="submitResponseBtn1">Thêm lịch</button>
+        </form>
+      </section>
+
+      <section id="survey">
+        <h2>📝 Tạo khảo sát</h2>
+        <form id="createSurvey">
+          <input type="text" name="title" placeholder="Tiêu đề khảo sát" required>
+          <textarea name="description" placeholder="Mô tả khảo sát"></textarea>
+          <button type="submit">Gửi khảo sát</button>
+        </form>
+      </section>
+
+      <section id="feedback">
+        <h2>💬 Phản hồi</h2>
+        <ul id="feedbackList">
+          <!-- Dữ liệu phản hồi sẽ được load ở đây -->
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- Nút đăng xuất (biểu tượng nguồn) -->
+  <div class="logout-icon" title="Đăng xuất" onclick="handleLogout()">⏻</div>
+  <div class="snow-container"></div>
+  <img src="caythong.png" id="cayThong" class="toggle-image">
+  <img src="nguoituyet.png" id="nguoiTuyet" class="toggle-image hidden">  
+  <div id="noelPopup" class="hidden">
+    <div class="popup-content">
+      <p>🎄 Chào đón Noel cùng Đại Học Hoàng Hải nhé! ☃️</p>
+      <button onclick="hideNoelPopup()">OK</button>
+      <div class="snow-bursts"></div>
+    </div>
+  </div>
+  <script src="admin-authFetch.js"></script>
+  <script src="admin.js"></script>
+  <script>
+    function handleLogout() {
+      const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+      if (confirmLogout) {
+        localStorage.clear(); // hoặc xóa token tùy hệ thống
+        window.location.href = "admin-auth.html"; // điều hướng về trang đăng nhập
+      }
+    }
+    
+  </script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cayThong = document.getElementById('cayThong');
+    const nguoiTuyet = document.getElementById('nguoiTuyet');
+    const popup = document.getElementById('noelPopup');
+    const burst = popup.querySelector('.snow-burst');
+
+    let showingSnowman = false;
+
+    function toggleImageAndShowPopup() {
+      showingSnowman = !showingSnowman;
+      if (showingSnowman) {
+        cayThong.classList.add('hidden');
+        nguoiTuyet.classList.remove('hidden');
+      } else {
+        nguoiTuyet.classList.add('hidden');
+        cayThong.classList.remove('hidden');
+      }
+
+      popup.classList.remove('hidden');
+      burst.style.animation = 'none';
+      burst.offsetHeight; // reflow to reset animation
+      burst.style.animation = 'burstSnow 0.8s ease-out';
+    }
+
+    cayThong.addEventListener('click', toggleImageAndShowPopup);
+    nguoiTuyet.addEventListener('click', toggleImageAndShowPopup);
+
+    window.hideNoelPopup = function () {
+      popup.classList.add('hidden');
+    };
+  });
+</script>
+<script>
+  document.addEventListener("click", (e) => {
+    const snowman = document.createElement("div");
+    snowman.classList.add("snowman-fall");
+    snowman.innerText = "⛄";
+    snowman.style.left = `${e.clientX}px`;
+    snowman.style.top = `${e.clientY}px`;
+    snowman.style.fontSize = "24px";
+    document.body.appendChild(snowman);
+  
+    setTimeout(() => snowman.remove(), 3000);
+  });
+  </script>
+  
+</body>
+</html>

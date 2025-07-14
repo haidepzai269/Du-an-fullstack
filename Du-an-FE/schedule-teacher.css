@@ -1,0 +1,251 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+  height: 100vh;
+}
+
+.layout {
+  display: flex;
+  height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar h2 {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li.active a {
+  background-color: #34495e;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ecf0f1;
+}
+
+/* Top bar */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 16px 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+#logoutBtn {
+  position: relative;
+  display: inline-block;
+  padding: 8px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #e74c3c;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Khi hover: đổi màu nền, scale, ẩn chữ và icon cũ */
+#logoutBtn:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+  color: transparent;
+}
+
+/* Ẩn các phần tử con khi hover */
+#logoutBtn:hover .logout-icon,
+#logoutBtn:hover .logout-text {
+  opacity: 0;
+}
+
+/* Biểu tượng mới "🔒" xuất hiện từ trái, trượt vào giữa */
+#logoutBtn::before {
+  content: "🔒";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #fff;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+#logoutBtn:hover::before {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+
+.user-name {
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Schedule content */
+h1 {
+  text-align: center;
+  font-size: 24px;
+  margin: 25px 0;
+}
+
+.schedule-table-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+thead {
+  background-color: #e9ecef;
+  font-weight: bold;
+}
+
+th, td {
+  padding: 12px 15px;
+  border: 1px solid #dee2e6;
+  text-align: center;
+}
+
+/* Back button */
+.back-btn {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.back-btn a {
+  position: relative;
+  display: inline-block;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #2c3e50;
+  border-radius: 8px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.back-btn a:hover {
+  background-color: 	#3d3d5c;
+  transform: scale(1.05);
+  color: transparent; /* Ẩn chữ chính */
+}
+
+.back-btn a::before {
+  content: "⬅️";
+  position: absolute;
+  left: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #fff; /* 👈 giữ màu riêng cho mũi tên */
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.back-btn a:hover::before {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+
+/* Gió: lá bay ngang kết hợp xoay */
+.leaf-blow {
+  position: fixed;
+  top: -20px;
+  animation: blow-wind 4s linear forwards;
+  z-index: 999;
+  pointer-events: none;
+}
+
+@keyframes blow-wind {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+
+/* Tuyết */
+.snow-flake {
+  position: fixed;
+  top: -20px;
+  animation: snow-fall 5s linear forwards;
+  color: white;
+  pointer-events: none;
+  z-index: 999;
+}
+
+@keyframes snow-fall {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+

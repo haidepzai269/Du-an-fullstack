@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Đăng nhập</title>
+  <link rel="stylesheet" href="admin-auth.css" />
+</head>
+<body>
+  <div class="auth-container">
+    <h2>🔐 Quản trị viên</h2>
+
+    <form id="adminLoginForm" class="auth-form">
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Mật khẩu" required />
+      <button type="submit">Đăng nhập</button>
+      <p class="toggle-text">
+        Chưa có tài khoản? <a href="#" onclick="toggleForm()">Đăng ký tại đây</a>
+      </p>
+    </form>
+
+    <form id="adminRegisterForm" class="auth-form" style="display: none;">
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Mật khẩu" required />
+      <button type="submit">Đăng ký</button>
+      <p class="toggle-text">
+        Đã có tài khoản? <a href="#" onclick="toggleForm()">Đăng nhập tại đây</a>
+      </p>
+    </form>
+  </div>
+
+  <script src="admin-auth.js"></script>
+  <script>
+    const hour = new Date().getHours();
+    
+    if (hour >= 5 && hour < 12) {
+      startSnow(); // Sáng: tuyết
+    } else if (hour >= 12 && hour <= 23) {
+      startWind(); // Chiều/tối: gió
+    }
+    
+    function startSnow() {
+      setInterval(() => {
+        const snow = document.createElement("div");
+        snow.classList.add("snow-flake");
+        snow.style.left = Math.random() * window.innerWidth + "px";
+        snow.style.fontSize = Math.random() * 10 + 10 + "px";
+        snow.innerText = "❄️";
+        document.body.appendChild(snow);
+    
+        setTimeout(() => snow.remove(), 5000);
+      }, 300);
+    }
+    
+    function startWind() {
+      setInterval(() => {
+        const leaf = document.createElement("div");
+        leaf.classList.add("leaf-blow");
+        leaf.innerText = "🍁";
+        leaf.style.left = Math.random() * window.innerWidth + "px";
+        leaf.style.fontSize = Math.random() * 18 + 12 + "px";
+        document.body.appendChild(leaf);
+    
+        setTimeout(() => leaf.remove(), 4000);
+      }, 300);
+    }
+    </script>
+    
+</body>
+</html>

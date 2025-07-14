@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thông tin học sinh</title>
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>TÀI KHOẢN SINH VIÊN</h2>
+      <ul>
+        <li><a href="home.html">🏠 Trang chủ</a></li>
+        <li><a href="profile.html" class="active">👤 Thông tin cá nhân</a></li>
+        <li><a href="schedule.html">📅 Thời khóa biểu</a></li>
+        <li><a href="grades.html">📊 Điểm học tập</a></li>
+        <li><a href="survey.html">📝 Khảo sát</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <span id="userName">Tên người dùng</span>
+        <button onclick="logout()" id="logoutBtn">🔓 Đăng xuất</button>
+      </header>
+
+      <!-- Thông tin -->
+      <section class="info-section">
+        <div class="info-header">
+          <h2>THÔNG TIN SINH VIÊN</h2>
+        </div>
+
+        <div class="info-container">
+          <!-- Bên trái: hiển thị -->
+          <div class="info-left">
+            <label>Họ tên:</label>
+            <input type="text" id="studentName" />
+            <label>Mã sinh viên:</label>
+            <input type="text" id="studentId" disabled />
+            <label>Khoa:</label>
+            <input type="text" id="studentFaculty" />
+            <label>Lớp:</label>
+            <input type="text" id="studentClass" />
+          </div>
+
+          <!-- Bên phải: cập nhật -->
+          <div class="info-right">
+            <h3>Cập nhật thông tin</h3>
+            <label>Họ tên</label>
+            <input type="text" id="nameInput" placeholder="Nhập tên mới...">
+            <label>Mật khẩu</label>
+            <input type="password" id="passwordInput" placeholder="Mật khẩu mới...">
+            <button class="btn-save" id="saveBtn">💾 Lưu thay đổi</button>
+            <button class="btn-back" onclick="goBack()">🔙 Quay lại</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="authFetch.js"></script>
+  <script src="profile.js"></script>
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      document.getElementById("userName").textContent = user.username.toUpperCase();
+    } else {
+      alert("Bạn chưa đăng nhập");
+      window.location.href = "login-register.html";
+    }
+
+    function logout() {
+      if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+        localStorage.removeItem("token");
+        window.location.href = "login-register.html";
+      }
+    }
+
+    function goBack() {
+      window.location.href = "home.html";
+    }
+  </script>
+ <script>
+  const hour = new Date().getHours();
+  
+  if (hour >= 5 && hour < 12) {
+    startSnow(); // Sáng: tuyết
+  } else if (hour >= 12 && hour <= 23) {
+    startWind(); // Chiều/tối: gió
+  }
+  
+  function startSnow() {
+    setInterval(() => {
+      const snow = document.createElement("div");
+      snow.classList.add("snow-flake");
+      snow.style.left = Math.random() * window.innerWidth + "px";
+      snow.style.fontSize = Math.random() * 10 + 10 + "px";
+      snow.innerText = "❄️";
+      document.body.appendChild(snow);
+  
+      setTimeout(() => snow.remove(), 5000);
+    }, 300);
+  }
+  
+  function startWind() {
+    setInterval(() => {
+      const leaf = document.createElement("div");
+      leaf.classList.add("leaf-blow");
+      leaf.innerText = "🍁";
+      leaf.style.left = Math.random() * window.innerWidth + "px";
+      leaf.style.fontSize = Math.random() * 18 + 12 + "px";
+      document.body.appendChild(leaf);
+  
+      setTimeout(() => leaf.remove(), 4000);
+    }, 300);
+  }
+  </script>
+  
+</body>
+</html>

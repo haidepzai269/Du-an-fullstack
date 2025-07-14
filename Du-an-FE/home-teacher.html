@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trang chủ Giáo viên</title>
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>TÀI KHOẢN GIÁO VIÊN</h2>
+      <ul>
+        <li><a href="home-teacher.html" class="active">🏠 Trang chủ</a></li>
+        <li><a href="profile-teacher.html">👤 Thông tin cá nhân</a></li>
+        <li><a href="schedule-teacher.html">📅 Thời khóa biểu</a></li>
+        <li><a href="grades-teacher.html">📝 Nhập điểm</a></li>
+        <li><a href="survey-teacher.html">📬 Phản hồi SV</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <header class="topbar">
+        <span id="usernameDisplay">Đang tải...</span>
+        <button onclick="logout()" id="logoutBtn">🔓 Đăng xuất</button>
+      </header>
+
+      <section class="content">
+        <h1>🎓 Chào mừng bạn đến với Cổng thông tin Giáo viên!</h1>
+        <div id="teacherName" style="margin-top: 10px; font-size: 18px;"></div>
+
+        <div class="intro">
+          <p><strong>Giới thiệu về trường:</strong></p>
+          <p>
+            Trường Đại học Hoàng Hải là nơi đào tạo đa ngành, nơi các giảng viên đóng vai trò then chốt trong việc dẫn dắt và truyền đạt kiến thức cho thế hệ sinh viên năng động. Tại đây, giáo viên được hỗ trợ bởi cơ sở vật chất hiện đại và một môi trường học thuật chuyên nghiệp.
+          </p>
+          <p>
+            Với phương châm “<em>Kiến tạo tri thức – Hướng tới tương lai</em>”, nhà trường khuyến khích sự sáng tạo, nghiên cứu và đổi mới trong giảng dạy để nâng cao chất lượng giáo dục và phát triển bền vững.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="authFetch.js"></script>
+  <script>
+    // Lấy dữ liệu giáo viên từ localStorage
+    const teacher = JSON.parse(localStorage.getItem("teacher"));
+
+      if (!teacher) {
+        alert("Bạn chưa đăng nhập với tài khoản giáo viên");
+        window.location.href = "teacher-auth.html";
+      } else {
+        const name = teacher.name?.toUpperCase() || "GIÁO VIÊN";
+        document.getElementById("usernameDisplay").textContent = name;
+        document.getElementById("teacherName").textContent = `👨‍🏫 Tài khoản: ${name}`;
+      } 
+
+
+    function logout() {
+      if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+        localStorage.removeItem("teacher");
+        window.location.href = "teacher-auth.html";
+      }
+    }
+    // Hiển thị thông báo nếu có
+async function showNotification() {
+  try {
+    const res = await authFetch('/api/admins/notifications/latest');
+    const data = await res.json();
+    if (data.message) {
+      alert("📢 THÔNG BÁO TỪ NHÀ TRƯỜNG:\n\n" + data.message);
+    }
+  } catch (error) {
+    console.error("Không thể lấy thông báo:", error);
+  }
+}
+
+showNotification(); // gọi sau khi xác thực
+
+  </script>
+ <script>
+  const hour = new Date().getHours();
+  
+  if (hour >= 5 && hour < 12) {
+    startSnow(); // Sáng: tuyết
+  } else if (hour >= 12 && hour <= 23) {
+    startWind(); // Chiều/tối: gió
+  }
+  
+  function startSnow() {
+    setInterval(() => {
+      const snow = document.createElement("div");
+      snow.classList.add("snow-flake");
+      snow.style.left = Math.random() * window.innerWidth + "px";
+      snow.style.fontSize = Math.random() * 10 + 10 + "px";
+      snow.innerText = "❄️";
+      document.body.appendChild(snow);
+  
+      setTimeout(() => snow.remove(), 5000);
+    }, 300);
+  }
+  
+  function startWind() {
+    setInterval(() => {
+      const leaf = document.createElement("div");
+      leaf.classList.add("leaf-blow");
+      leaf.innerText = "🍁";
+      leaf.style.left = Math.random() * window.innerWidth + "px";
+      leaf.style.fontSize = Math.random() * 18 + 12 + "px";
+      document.body.appendChild(leaf);
+  
+      setTimeout(() => leaf.remove(), 4000);
+    }, 300);
+  }
+  </script>
+  
+</body>
+</html>

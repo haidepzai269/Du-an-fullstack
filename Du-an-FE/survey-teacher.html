@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Khảo sát & Góp ý - Giáo viên</title>
+  <link rel="stylesheet" href="survey-teacher.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>TÀI KHOẢN GIÁO VIÊN</h2>
+      <ul>
+        <li><a href="home-teacher.html">🏠 Trang chủ</a></li>
+        <li><a href="profile-teacher.html">👤 Thông tin cá nhân</a></li>
+        <li><a href="schedule-teacher.html">📅 Thời khóa biểu</a></li>
+        <li><a href="grades-teacher.html">📝 Nhập điểm</a></li>
+        <li><a href="survey-teacher.html" class="active">📬 Khảo sát</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <header class="header">
+        <span id="teacherName">Tên giáo viên</span>
+        <button onclick="logout()" id="logoutBtn">🔓 Đăng xuất</button>
+      </header>
+
+      <section class="info-section">
+        <div class="info-header">
+          <h2>KHẢO SÁT & GÓP Ý (GIÁO VIÊN)</h2>
+        </div>
+
+        <!-- Góp ý tự do -->
+        <div class="form-block">
+          <h3>📬 Gửi góp ý đến nhà trường</h3>
+          <form id="feedbackForm">
+            <input type="text" id="feedbackTitle" placeholder="Tiêu đề góp ý" required />
+            <textarea id="feedbackContent" placeholder="Nội dung góp ý" required></textarea>
+            <button type="submit" id="submitResponseBtn1">Gửi góp ý</button>
+          </form>
+        </div>
+
+        <hr style="margin: 30px 0" />
+
+        <!-- Danh sách khảo sát -->
+        <div class="form-block">
+          <h3>📋 Các khảo sát dành cho giáo viên</h3>
+          <div id="surveyList"></div>
+        </div>
+
+        <!-- Phản hồi khảo sát -->
+        <div class="form-block" id="surveyResponseForm" style="display: none;">
+          <h3 id="surveyTitle">Phản hồi khảo sát</h3>
+          <form>
+            <textarea id="responseText" placeholder="Ý kiến của bạn..." required></textarea>
+            <input type="hidden" id="surveyId" />
+            <button type="submit" id="submitResponseBtn">Gửi phản hồi</button>
+          </form>
+        </div>
+
+        <div class="back-button-wrapper">
+          <button onclick="goBack()">🔙 Quay lại trang chủ</button>
+        </div>
+      </section>
+    </main>
+  </div>
+ <script src="authFetch.js"></script>
+ <script src="survey-teacher.js"></script>
+  <script>
+    function goBack() {
+      window.location.href = "teacher-home.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("token");
+      window.location.href = "teacher-auth.html";
+    }
+  </script>
+<script>
+  const hour = new Date().getHours();
+  
+  if (hour >= 5 && hour < 12) {
+    startSnow(); // Sáng: tuyết
+  } else if (hour >= 12 && hour <= 23) {
+    startWind(); // Chiều/tối: gió
+  }
+  
+  function startSnow() {
+    setInterval(() => {
+      const snow = document.createElement("div");
+      snow.classList.add("snow-flake");
+      snow.style.left = Math.random() * window.innerWidth + "px";
+      snow.style.fontSize = Math.random() * 10 + 10 + "px";
+      snow.innerText = "❄️";
+      document.body.appendChild(snow);
+  
+      setTimeout(() => snow.remove(), 5000);
+    }, 300);
+  }
+  
+  function startWind() {
+    setInterval(() => {
+      const leaf = document.createElement("div");
+      leaf.classList.add("leaf-blow");
+      leaf.innerText = "🍁";
+      leaf.style.left = Math.random() * window.innerWidth + "px";
+      leaf.style.fontSize = Math.random() * 18 + 12 + "px";
+      document.body.appendChild(leaf);
+  
+      setTimeout(() => leaf.remove(), 4000);
+    }, 300);
+  }
+  </script>
+  
+</body>
+</html>

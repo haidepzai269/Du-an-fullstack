@@ -1,0 +1,276 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+  height: 100vh;
+}
+
+/* Container layout */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.sidebar ul {
+  list-style: none;
+  margin-top: 20px;
+}
+
+.sidebar ul li {
+  margin: 12px 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li.active a {
+  background-color: #34495e;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ecf0f1;
+}
+
+/* Header with shadow box */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 16px 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+/* Logout button animation */
+.logout-btn {
+  position: relative;
+  display: inline-block;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #e74c3c;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+  color: transparent;
+}
+
+.logout-btn:hover::before {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+.logout-btn::before {
+  content: "🔒";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #fff;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+/* Content */
+.content {
+  padding: 30px 40px;
+}
+
+.content h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+form {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 12px 0 6px;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.save-btn, .back-btn {
+  position: relative;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  color: #fff;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.save-btn {
+  background-color: #3498db;
+}
+
+.back-btn {
+  background-color: #37b620;
+}
+
+/* Hover effects */
+.save-btn:hover,
+.back-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Hide text on hover */
+.save-btn:hover .button-text,
+.back-btn:hover .button-text {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Icon from LEFT (save) */
+.save-btn::before {
+  content: "📑";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #fff;
+  opacity: 0;
+  z-index: 2;
+  transition: all 0.4s ease;
+}
+
+.save-btn:hover::before {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+/* Icon from RIGHT (back) */
+.back-btn::before {
+  content: "🔙";
+  position: absolute;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #fff;
+  opacity: 0;
+  z-index: 2;
+  transition: all 0.4s ease;
+}
+
+.back-btn:hover::before {
+  right: 50%;
+  transform: translate(50%, -50%);
+  opacity: 1;
+}
+
+
+
+#name{
+  font-size: 16px;
+}
+
+/* Gió: lá bay ngang kết hợp xoay */
+.leaf-blow {
+  position: fixed;
+  top: -20px;
+  animation: blow-wind 4s linear forwards;
+  z-index: 999;
+  pointer-events: none;
+}
+
+@keyframes blow-wind {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+
+/* Tuyết */
+.snow-flake {
+  position: fixed;
+  top: -20px;
+  animation: snow-fall 5s linear forwards;
+  color: white;
+  pointer-events: none;
+  z-index: 999;
+}
+
+@keyframes snow-fall {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}

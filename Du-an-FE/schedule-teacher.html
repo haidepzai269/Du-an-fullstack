@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thời khóa biểu - Giáo viên</title>
+  <link rel="stylesheet" href="schedule-teacher.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>TÀI KHOẢN GIÁO VIÊN</h2>
+      <ul>
+        <li><a href="home-teacher.html">🏠 Trang chủ</a></li>
+        <li><a href="profile-teacher.html">👤 Thông tin cá nhân</a></li>
+        <li class="active"><a href="schedule-teacher.html">🗓️ Thời khóa biểu</a></li>
+        <li><a href="grades-teacher.html">📝 Nhập điểm</a></li>
+        <li><a href="survey-teacher.html">📬 Khảo sát</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <div class="top-bar">
+        <button onclick="logout()" id="logoutBtn">
+          <span class="logout-icon">🔓</span>
+          <span class="logout-text">Đăng xuất</span>
+        </button>
+        <div class="user-name" id="teacherName">Giáo viên</div>
+      </div>
+
+      <h1>THỜI KHÓA BIỂU</h1>
+
+      <div class="schedule-table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Môn học</th>
+              <th>Thứ</th>
+              <th>Bắt đầu</th>
+              <th>Kết thúc</th>
+              <th>Phòng học</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody">
+            <!-- Dữ liệu sẽ được render từ JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="back-btn">
+        <a href="home-teacher.html">⬅️ Quay lại trang chủ</a>
+      </div>
+    </main>
+  </div>
+  <script src="authFetch.js"></script>
+  <script src="schedule-teacher.js"></script>
+  <script>
+    const hour = new Date().getHours();
+    
+    if (hour >= 5 && hour < 12) {
+      startSnow(); // Sáng: tuyết
+    } else if (hour >= 12 && hour <= 23) {
+      startWind(); // Chiều/tối: gió
+    }
+    
+    function startSnow() {
+      setInterval(() => {
+        const snow = document.createElement("div");
+        snow.classList.add("snow-flake");
+        snow.style.left = Math.random() * window.innerWidth + "px";
+        snow.style.fontSize = Math.random() * 10 + 10 + "px";
+        snow.innerText = "❄️";
+        document.body.appendChild(snow);
+    
+        setTimeout(() => snow.remove(), 5000);
+      }, 300);
+    }
+    
+    function startWind() {
+      setInterval(() => {
+        const leaf = document.createElement("div");
+        leaf.classList.add("leaf-blow");
+        leaf.innerText = "🍁";
+        leaf.style.left = Math.random() * window.innerWidth + "px";
+        leaf.style.fontSize = Math.random() * 18 + 12 + "px";
+        document.body.appendChild(leaf);
+    
+        setTimeout(() => leaf.remove(), 4000);
+      }, 300);
+    }
+    </script>
+    
+</body>
+</html>

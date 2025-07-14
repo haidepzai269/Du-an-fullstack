@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Giáo viên - Đăng nhập / Đăng ký</title>
+  <link rel="stylesheet" href="teacher-auth.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="form-box" id="loginForm">
+      <h2>🧑‍🏫 Đăng nhập</h2>
+      <form id="login">
+        <input type="email" placeholder="Email giáo viên" required>
+        <input type="password" placeholder="Mật khẩu" required>
+        <button type="submit">Đăng nhập</button>
+        <p>Bạn chưa có tài khoản? <a href="#" onclick="switchForm('registerForm')">Đăng ký</a></p>
+      </form>
+    </div>
+
+    <div class="form-box hidden" id="registerForm">
+      <h2>🧑‍🏫 Đăng ký</h2>
+      <form id="register">
+        <input type="text" placeholder="Họ tên giáo viên" required>
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Mật khẩu" required>
+        <input type="password" placeholder="Nhập lại mật khẩu" required>
+        <button type="submit">Đăng ký</button>
+        <p>Đã có tài khoản? <a href="#" onclick="switchForm('loginForm')">Đăng nhập</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function switchForm(formId) {
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('registerForm').classList.add('hidden');
+      document.getElementById(formId).classList.remove('hidden');
+    }
+  </script>
+  <script src="teacher-auth.js"></script>
+  <script>
+    const hour = new Date().getHours();
+    
+    if (hour >= 5 && hour < 12) {
+      startSnow(); // Sáng: tuyết
+    } else if (hour >= 12 && hour <= 23) {
+      startWind(); // Chiều/tối: gió
+    }
+    
+    function startSnow() {
+      setInterval(() => {
+        const snow = document.createElement("div");
+        snow.classList.add("snow-flake");
+        snow.style.left = Math.random() * window.innerWidth + "px";
+        snow.style.fontSize = Math.random() * 10 + 10 + "px";
+        snow.innerText = "❄️";
+        document.body.appendChild(snow);
+    
+        setTimeout(() => snow.remove(), 5000);
+      }, 300);
+    }
+    
+    function startWind() {
+      setInterval(() => {
+        const leaf = document.createElement("div");
+        leaf.classList.add("leaf-blow");
+        leaf.innerText = "🍁";
+        leaf.style.left = Math.random() * window.innerWidth + "px";
+        leaf.style.fontSize = Math.random() * 18 + 12 + "px";
+        document.body.appendChild(leaf);
+    
+        setTimeout(() => leaf.remove(), 4000);
+      }, 300);
+    }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,123 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .auth-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    padding: 30px 40px;
+    width: 350px;
+    transition: all 0.3s ease;
+  }
+  
+  .form-box {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form-box form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.2s;
+  }
+  
+  input:focus {
+    border-color: #667eea;
+    outline: none;
+  }
+  
+  button {
+    padding: 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  button:hover {
+    background: #5a67d8;
+  }
+  
+  p {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  
+  a {
+    color: #667eea;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+/* Gió: lá bay ngang kết hợp xoay */
+.leaf-blow {
+  position: fixed;
+  top: -20px;
+  animation: blow-wind 4s linear forwards;
+  z-index: 999;
+  pointer-events: none;
+}
+
+@keyframes blow-wind {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+
+/* Tuyết */
+.snow-flake {
+  position: fixed;
+  top: -20px;
+  animation: snow-fall 5s linear forwards;
+  color: white;
+  pointer-events: none;
+  z-index: 999;
+}
+
+@keyframes snow-fall {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}

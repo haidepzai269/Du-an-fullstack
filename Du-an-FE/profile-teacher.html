@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thông tin giáo viên</title>
+  <link rel="stylesheet" href="profile-teacher.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>TÀI KHOẢN GIÁO VIÊN</h2>
+      <ul>
+        <li><a href="home-teacher.html">🏠 Trang chủ</a></li>
+        <li><a href="profile-teacher.html" class="active">👤 Thông tin cá nhân</a></li>
+        <li><a href="schedule-teacher.html">📅 Thời khóa biểu</a></li>
+        <li><a href="grades-teacher.html">📝 Nhập điểm</a></li>
+        <li><a href="survey-teacher.html">📬 Khảo sát</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <header class="topbar">
+        <span id="usernameDisplay">Giáo viên</span>
+        <button onclick="logout()" id="logoutBtn">🔓 Đăng xuất</button>
+      </header>
+
+      <section class="profile">
+        <div class="profile-container">
+          <h1>THÔNG TIN GIÁO VIÊN</h1>
+          <div class="info">
+            <div class="left">
+              <label>Họ tên:</label>
+              <input type="text" id="displayName" readonly />
+
+              <label>Email:</label>
+              <input type="text" id="displayEmail" readonly />
+
+              <label>Bộ môn:</label>
+              <input type="text" id="displaySubject" readonly />
+
+              <label>Mã giảng viên:</label>
+              <input type="text" id="displayCode" readonly />
+            </div>
+
+            <div class="right">
+              <h2>Cập nhật thông tin</h2>
+              <label>Họ tên mới</label>
+              <input type="text" placeholder="Nhập tên mới..." id="newName" />
+
+              <label>Mật khẩu</label>
+              <input type="password" placeholder="Mật khẩu mới..." id="newPassword" />
+
+              <button class="btn-save" id="saveBtn">💾 Lưu thay đổi</button>
+              <button class="btn-back" onclick="window.location.href='home-teacher.html'">↩️ Quay lại</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="authFetch.js"></script>
+  <script src="profile-teacher.js"></script>
+  <script>
+    const hour = new Date().getHours();
+    
+    if (hour >= 5 && hour < 12) {
+      startSnow(); // Sáng: tuyết
+    } else if (hour >= 12 && hour <= 23) {
+      startWind(); // Chiều/tối: gió
+    }
+    
+    function startSnow() {
+      setInterval(() => {
+        const snow = document.createElement("div");
+        snow.classList.add("snow-flake");
+        snow.style.left = Math.random() * window.innerWidth + "px";
+        snow.style.fontSize = Math.random() * 10 + 10 + "px";
+        snow.innerText = "❄️";
+        document.body.appendChild(snow);
+    
+        setTimeout(() => snow.remove(), 5000);
+      }, 300);
+    }
+    
+    function startWind() {
+      setInterval(() => {
+        const leaf = document.createElement("div");
+        leaf.classList.add("leaf-blow");
+        leaf.innerText = "🍁";
+        leaf.style.left = Math.random() * window.innerWidth + "px";
+        leaf.style.fontSize = Math.random() * 18 + 12 + "px";
+        document.body.appendChild(leaf);
+    
+        setTimeout(() => leaf.remove(), 4000);
+      }, 300);
+    }
+    </script>
+    
+</body>
+</html>

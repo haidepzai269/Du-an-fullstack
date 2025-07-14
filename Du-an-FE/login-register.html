@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đăng nhập / Đăng ký</title>
+  <link rel="stylesheet" href="login-register.css" />
+</head>
+<body>
+
+  <div class="form-wrapper">
+    <form id="loginForm" class="form-box" autocomplete="off">
+      <div class="container">
+        <div class="container-box">
+          <h1>🧑‍🎓 Đăng nhập</h1>
+          <div class="text">
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="email" id="email" placeholder="Email" required />
+            <input type="password" id="password" placeholder="Password" required />
+          </div>
+
+          <div class="check-box">
+            <label>Remember me</label>
+            <input type="checkbox" value="remenber" />
+          </div>
+
+          <button type="submit">Login</button>
+          <p>Bạn chưa có tài khoản? <a href="#" onclick="showRegisterForm()">Đăng ký</a></p>
+        </div>
+      </div>
+    </form>
+
+    <form id="registerForm" class="form-box" autocomplete="off">
+      <div class="container">
+        <div class="container-box">
+          <h1>🧑‍🎓 Đăng ký</h1>
+          <div class="text">
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="email" id="email" placeholder="Email" required />
+            <input type="password" id="password" placeholder="Password" required />
+          </div>
+
+          <div class="check-box">
+            <label>Remember me</label>
+            <input type="checkbox" value="remenber" />
+          </div>
+
+          <button type="submit">Register</button>
+          <p>Bạn đã có tài khoản? <a href="#" onclick="showLoginForm()">Đăng nhập</a></p>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="login-register.js"></script>
+  <script>
+    const hour = new Date().getHours();
+    
+    if (hour >= 5 && hour < 12) {
+      startSnow(); // Sáng: tuyết
+    } else if (hour >= 12 && hour <= 23) {
+      startWind(); // Chiều/tối: gió
+    }
+    
+    function startSnow() {
+      setInterval(() => {
+        const snow = document.createElement("div");
+        snow.classList.add("snow-flake");
+        snow.style.left = Math.random() * window.innerWidth + "px";
+        snow.style.fontSize = Math.random() * 10 + 10 + "px";
+        snow.innerText = "❄️";
+        document.body.appendChild(snow);
+    
+        setTimeout(() => snow.remove(), 5000);
+      }, 300);
+    }
+    
+    function startWind() {
+      setInterval(() => {
+        const leaf = document.createElement("div");
+        leaf.classList.add("leaf-blow");
+        leaf.innerText = "🍁";
+        leaf.style.left = Math.random() * window.innerWidth + "px";
+        leaf.style.fontSize = Math.random() * 18 + 12 + "px";
+        document.body.appendChild(leaf);
+    
+        setTimeout(() => leaf.remove(), 4000);
+      }, 300);
+    }
+    </script>
+    
+</body>
+</html>
