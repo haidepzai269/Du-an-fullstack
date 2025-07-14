@@ -1,16 +1,18 @@
 const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first'); // Ưu tiên IPv4
+
 const { Pool } = require('pg');
 require('dotenv').config();
 
-dns.setDefaultResultOrder('ipv4first'); // Ưu tiên IPv4 thay vì IPv6
-
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  user: 'postgres',
+  password: 'haidepzai269',
+  host: 'db.ggjadhmvoflzsgokfozj.supabase.co', // hostname
+  port: 5432,
+  database: 'postgres',
   ssl: {
-    rejectUnauthorized: false,
-  },
+    rejectUnauthorized: false
+  }
 });
-
-console.log('🔗 DATABASE_URL:', process.env.DATABASE_URL);
 
 module.exports = pool;
