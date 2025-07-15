@@ -1,3 +1,6 @@
+// ====== login-register.js ======
+const API_BASE = "http://localhost:3000";
+
 function showRegisterForm() {
   document.body.classList.add("show-register");
 }
@@ -6,7 +9,6 @@ function showLoginForm() {
   document.body.classList.remove("show-register");
 }
 
-// ✅ Khi trang load: tự động điền nếu đã lưu
 window.addEventListener("DOMContentLoaded", () => {
   const savedEmail = localStorage.getItem("savedEmail");
   const savedPassword = localStorage.getItem("savedPassword");
@@ -19,16 +21,14 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// ======== ĐĂNG KÝ SINH VIÊN ========
 document.getElementById("registerForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-
   const username = document.querySelector("#registerForm #username").value.trim();
   const email = document.querySelector("#registerForm #email").value.trim();
   const password = document.querySelector("#registerForm #password").value.trim();
 
   try {
-    const res = await fetch("http://localhost:3000/api/auth/register", {
+    const res = await fetch(`${API_BASE}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password })
@@ -47,16 +47,14 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
   }
 });
 
-// ======== ĐĂNG NHẬP SINH VIÊN ========
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-
   const email = document.querySelector("#loginForm #email").value.trim();
   const password = document.querySelector("#loginForm #password").value.trim();
   const rememberMe = document.querySelector("#loginForm .check-box input[type='checkbox']").checked;
 
   try {
-    const res = await fetch("http://localhost:3000/api/auth/login", {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
@@ -64,15 +62,13 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
     const data = await res.json();
     if (res.ok) {
-      // ✅ Ghi riêng token của SINH VIÊN
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // ✅ Nếu chọn "Remember me", lưu email và password
       if (rememberMe) {
         localStorage.setItem("savedEmail", email);
-        localStorage.setItem("savedPassword", password); // Có thể bỏ dòng này nếu không muốn lưu password
+        localStorage.setItem("savedPassword", password);
         localStorage.setItem("rememberMe", "true");
       } else {
         localStorage.removeItem("savedEmail");
